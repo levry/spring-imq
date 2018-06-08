@@ -8,10 +8,9 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 before_install:
-  - cd imq-spring-boot-starter
   - chmod +x gradlew
 script:
-  - ./gradlew check --console=plain
+  - ./gradlew -b imq-spring-boot-starter/build.gradle check --console=plain
 branches:
   only:
   - master
