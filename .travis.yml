@@ -1,4 +1,5 @@
 language: java
+install: true
 jdk: oraclejdk8
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -9,8 +10,7 @@ cache:
     - $HOME/.gradle/wrapper/
 before_install:
   - chmod +x gradlew
-script:
-  - ./gradlew -b imq-spring-boot-starter/build.gradle check --console=plain
+script: ./gradlew -b imq-spring-boot-starter/build.gradle check --console=plain
 branches:
   only:
   - master
