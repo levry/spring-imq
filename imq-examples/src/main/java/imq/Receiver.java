@@ -11,9 +11,9 @@ public class Receiver {
 
     private static final Logger logger = LoggerFactory.getLogger(ImqApplication.class);
 
-    @JmsListener(destination = "test.imq")
+    @JmsListener(destination = "test.queue")
     void receiveMessage(Message incoming) {
-        logger.warn("Incoming message: {}", incoming);
+        logger.warn("Incoming message: payload={}, headers={}", incoming.getPayload(), incoming.getHeaders());
     }
 
 }
