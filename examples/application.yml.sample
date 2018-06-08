@@ -1,0 +1,5 @@
+imq:
+  host: host
+  port: post
+  username: user
+  password: pass
