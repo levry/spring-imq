@@ -1,6 +1,7 @@
 package imq.autoconfigure;
 
 import com.sun.messaging.ConnectionFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -25,8 +26,9 @@ public class ImqAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(javax.jms.ConnectionFactory.class)
-    public ConnectionFactory containerFactory(ImqProperties properties) throws JMSException {
-        return new ImqConnectionFactoryBuilder(properties).createFactory();
+    public ConnectionFactory containerFactory(ImqProperties properties,
+                                              ObjectProvider<ImqConnectionFactoryCustomizer> factoryCustomizer) throws JMSException {
+        return new ImqConnectionFactoryBuilder(properties, factoryCustomizer.getIfAvailable()).createFactory();
     }
 
 }

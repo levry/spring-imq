@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -63,6 +64,29 @@ class ImqAutoConfigurationTest {
         );
     }
 
+    @Test
+    void customizeConnectionFactory() {
+        context = createApplicationContext(CustomTestConfiguration.class);
+
+        ConnectionFactory connectionFactory = context.getBean(ConnectionFactory.class);
+        Properties config = connectionFactory.getConfiguration();
+
+        assertThat(config.getProperty("imqBrokerServiceName")).isEqualTo("customName");
+    }
+
+    @Configuration
+    static class CustomTestConfiguration {
+        @Bean
+        public ImqConnectionFactoryCustomizer imqFactoryCustomizer() {
+            return connectionFactory -> connectionFactory.setProperty("imqBrokerServiceName", "customName");
+        }
+    }
+
+    @Configuration
+    static class TestConfiguration {
+
+    }
+
     private AnnotationConfigApplicationContext createApplicationContext(Class<?> config, String... env) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         TestPropertyValues.of(env).applyTo(context);
@@ -70,11 +94,6 @@ class ImqAutoConfigurationTest {
         context.register(ImqAutoConfiguration.class, JmsAutoConfiguration.class);
         context.refresh();
         return context;
-    }
-
-    @Configuration
-    static class TestConfiguration {
-
     }
 
 }

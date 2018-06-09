@@ -10,21 +10,34 @@ import static com.sun.messaging.ConnectionConfiguration.*;
 /**
  * @author levry
  */
-public class ImqConnectionFactoryBuilder {
+class ImqConnectionFactoryBuilder {
 
     private final ImqProperties properties;
+    private final ImqConnectionFactoryCustomizer factoryCustomizer;
 
-    public ImqConnectionFactoryBuilder(ImqProperties properties) {
+    ImqConnectionFactoryBuilder(ImqProperties properties, ImqConnectionFactoryCustomizer factoryCustomizer) {
         this.properties = properties;
+        this.factoryCustomizer = factoryCustomizer;
     }
 
-    public ConnectionFactory createFactory() throws JMSException {
-        ConnectionFactory cf = new ConnectionFactory();
+    ConnectionFactory createFactory() throws JMSException {
+        final ConnectionFactory cf = new ConnectionFactory();
+        setupProperties(cf);
+        customize(cf);
+        return cf;
+    }
+
+    private void setupProperties(ConnectionFactory cf) throws JMSException {
         setProperty(cf, imqBrokerHostName, properties::getHost);
         setProperty(cf, imqBrokerHostPort, properties::getPort);
         setProperty(cf, imqDefaultUsername, properties::getUsername);
         setProperty(cf, imqDefaultPassword, properties::getPassword);
-        return cf;
+    }
+
+    private void customize(ConnectionFactory cf) throws JMSException {
+        if (null != factoryCustomizer) {
+            factoryCustomizer.customize(cf);
+        }
     }
 
     private void setProperty(ConnectionFactory cf, String name, Supplier<?> param) throws JMSException {
