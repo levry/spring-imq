@@ -29,7 +29,6 @@ dependencies {
 
 	compile 'ch.qos.logback:logback-classic:1.2.3'
 	runtime 'org.glassfish.mq:imq:5.1'
-	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'junit', module: 'junit'

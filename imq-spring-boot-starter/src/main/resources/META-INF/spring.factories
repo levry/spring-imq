@@ -1,2 +1,2 @@
 # Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=imq.autoconfigure.ImqAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.levry.imq.spring.autoconfigure.ImqAutoConfiguration

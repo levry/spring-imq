@@ -1,6 +1,6 @@
-package imq.autoconfigure;
+package io.github.levry.imq.spring.autoconfigure;
 
-import com.sun.messaging.ConnectionFactory;
+import com.sun.messaging.ConnectionFactory; // NOSONAR
 
 import javax.jms.JMSException;
 

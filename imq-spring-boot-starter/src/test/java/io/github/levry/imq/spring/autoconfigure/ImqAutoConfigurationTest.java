@@ -1,4 +1,4 @@
-package imq.autoconfigure;
+package io.github.levry.imq.spring.autoconfigure;
 
 import com.sun.messaging.ConnectionFactory;
 import org.junit.jupiter.api.AfterEach;

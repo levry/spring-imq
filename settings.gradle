@@ -1,3 +1,2 @@
 include 'imq-spring-boot-starter'
 include 'imq-examples'
-//include 'imq-embedded'

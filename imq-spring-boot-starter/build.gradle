@@ -26,8 +26,8 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter'
     compile 'org.springframework:spring-jms'
-
     compile 'org.glassfish.mq:imq:5.1'
+
     compileOnly "org.projectlombok:lombok"
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 

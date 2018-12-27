@@ -1,6 +1,6 @@
-package imq.autoconfigure;
+package io.github.levry.imq.spring.autoconfigure;
 
-import com.sun.messaging.ConnectionFactory;
+import com.sun.messaging.ConnectionFactory; // NOSONAR
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -26,7 +26,7 @@ public class ImqAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(javax.jms.ConnectionFactory.class)
-    public ConnectionFactory containerFactory(ImqProperties properties,
+    public ConnectionFactory connectionFactory(ImqProperties properties,
                                               ObjectProvider<ImqConnectionFactoryCustomizer> factoryCustomizer) throws JMSException {
         return new ImqConnectionFactoryBuilder(properties, factoryCustomizer.getIfAvailable()).createFactory();
     }
