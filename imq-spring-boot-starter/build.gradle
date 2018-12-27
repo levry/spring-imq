@@ -10,8 +10,12 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
+plugins {
+    id 'org.sonarqube' version '2.6.1'
+    id 'java'
+    id 'jacoco'
+}
+
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -41,4 +45,17 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "OpenMQ Spring Boot Starter"
+        property "sonar.projectKey", "github.levry.imq.spring"
+    }
 }
