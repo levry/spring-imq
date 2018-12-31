@@ -11,20 +11,27 @@ buildscript {
 }
 
 plugins {
-    id 'org.sonarqube' version '2.6.1'
     id 'java'
+    id 'maven'
     id 'jacoco'
+    id 'org.sonarqube' version '2.6.1'
+    id 'com.jfrog.bintray' version '1.8.4'
 }
 
-apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'imq'
-version = '0.0.1-SNAPSHOT'
+group = 'com.github.levry'
+version = '0.0.1'
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-starter-parent:2.0.2.RELEASE"
+    }
 }
 
 dependencies {
@@ -32,7 +39,7 @@ dependencies {
     compile 'org.springframework:spring-jms'
     compile 'org.glassfish.mq:imq:5.1'
 
-    compileOnly "org.projectlombok:lombok"
+    compileOnly 'org.projectlombok:lombok'
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     testCompile('org.springframework.boot:spring-boot-starter-test') {
@@ -41,6 +48,15 @@ dependencies {
     testCompile 'org.junit.jupiter:junit-jupiter-api'
     testCompile 'org.junit.jupiter:junit-jupiter-params'
     testRuntime 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives sourcesJar
 }
 
 test {
@@ -57,5 +73,27 @@ sonarqube {
     properties {
         property "sonar.projectName", "OpenMQ Spring Boot Starter"
         property "sonar.projectKey", "github.levry.imq.spring"
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER') ?: project.property('bintray.user')
+    key = System.getenv('BINTRAY_KEY') ?: project.property('bintray.key')
+    configurations = ['archives']
+    
+    pkg {
+        repo = 'maven'
+        name = 'imq-spring-boot-starter'
+        licenses = ['MIT']
+        publish = true
+        publicDownloadNumbers = true
+        vcsUrl = 'https://github.com/levry/spring-imq.git'
+        labels = ['openmq', 'java', 'spring-boot', 'jms']
+        version {
+            name = project.version
+            desc = 'OpenMQ spring boot starter'
+            released = new Date()
+            vcsTag = project.version
+        }
     }
 }

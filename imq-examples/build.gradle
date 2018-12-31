@@ -11,24 +11,24 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'imq'
+group = 'com.github.levry'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://dl.bintray.com/levry/maven/'
+	}
 }
 
-
 dependencies {
-	compile project(':imq-spring-boot-starter')
+	compile 'com.github.levry:imq-spring-boot-starter:0.0.1'
 
 	compile 'ch.qos.logback:logback-classic:1.2.3'
-	runtime 'org.glassfish.mq:imq:5.1'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'junit', module: 'junit'

@@ -1,4 +1,4 @@
-package imq;
+package com.github.levry.imq.examples;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ public class Receiver {
 
     private static final Logger logger = LoggerFactory.getLogger(ImqApplication.class);
 
-    @JmsListener(destination = "test.queue")
+    @JmsListener(destination = "${imq.incoming:test.queue}")
     void receiveMessage(Message incoming) {
         logger.warn("Incoming message: payload={}, headers={}", incoming.getPayload(), incoming.getHeaders());
     }

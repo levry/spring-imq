@@ -1,4 +1,4 @@
-package io.github.levry.imq.spring.autoconfigure;
+package com.github.levry.imq.spring.autoconfigure;
 
 import com.sun.messaging.ConnectionFactory; // NOSONAR
 

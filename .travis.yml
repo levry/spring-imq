@@ -16,10 +16,22 @@ cache:
     - $HOME/.sonar/cache
 before_install:
   - chmod +x gradlew
-script:
-  - ./gradlew :imq-spring-boot-starter:check --console=plain
-  - ./gradlew :imq-spring-boot-starter:jacocoTestReport --console=plain
-  - ./gradlew :imq-spring-boot-starter:sonarqube --console=plain
+
+jobs:
+  include:
+  - stage: test
+    script:
+      - ./gradlew :imq-spring-boot-starter:check --console=plain
+      - ./gradlew :imq-spring-boot-starter:jacocoTestReport --console=plain
+      - ./gradlew :imq-spring-boot-starter:sonarqube --console=plain
+  - stage: publish
+    script:
+      - ./gradlew :imq-spring-boot-starter:assemble -x check
+      - ./gradlew :imq-spring-boot-starter:bintrayUpload --console=plain
+    env:
+      - secure: BVfMNV5HE1cD+M1YY8Z/mhDDMgOsU3Pbwx2khgKy31+pDp/B3Qs2+/Mhq1UWUgdq7Svn54IF+fVFgaOaZQGTvh6OPDQQLT4v4Uhfz2R+H69Npzv2mxSwEhpuIvFVa9EuxmfdTx20MiTFFq/t5SCFmcPoMxZxXvGDOCdeLLZNf6u/QfDi2gxYi6kU75JiUn/A4zs3VhVGdk1CKYoqw9AiZ70+fA4nKCA2OdQWxRGrM1ZfCqjEHdV/p2Nq1ACjozPMVBIgsWJgPhGeVcHEsyt9ItI0KiNbnBxPqE7+5KVroSI2Tk4tRtGbEZx20W0JAFkjif15yhk6dqqp6DC6BLkfZivoaTBemn8D/wPGauD2JUBSnnCC/HuTDxdu2AT9rwsavkNaSCkyIadfnHUK9WO+MoFc+5BoOIzvJDsx3egkaO9zg1Lfse2MI2EC5u8zOhvV/0+a3kV+uIsRL4PgDQvTADvSspbkQPamM7ZBocjDXOY9W0X6SzD//SOOZ6ULn4uZSg9iqOPWu+9yPj1Rwaa4IQP8ZWz9+Fzu1oIpoNav2FimHjIdocLcFVywLNZJdy0xZh1PHVqCi0NbZdy5zzFU61nHQML+yL5jwicv163vjj5MaDMfxSKpoC+JlCV3KkpKQbFWLm8DsewW5kSI9q4zFIkcDv5RQM03Ebdl25e8iQk=
+    if: branch = master
+
 branches:
   only:
   - master

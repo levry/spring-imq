@@ -1,4 +1,4 @@
-package imq;
+package com.github.levry.imq.examples;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = {"imq.host=localhost"})
+@SpringBootTest(properties = {"imq.host=localhost", "imq.incoming=test.queue.2"})
 class ImqApplicationTests {
 
 	@Autowired
